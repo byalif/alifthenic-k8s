@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: questions-service-app
+spec:
+  selector:
+    matchLabels:
+      app: questions-service-app
+  template:
+    metadata:
+      labels:
+        app: questions-service-app
+    spec:
+      containers:
+      - name: questions-service-app
+        image: beatsbyalif/questions-service:18
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: kafka-bootstrap
+          value: kafka-bootstrap
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-cm
+              key: config_url
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-cm
+              key: hostname
+        - name: MYSQL_ROOT_PASSWORD
+          value: Wjps2018
+        - name: kafka-bootstrap
+          value: my-kafka-cluster-kafka-0.my-kafka-cluster-kafka-brokers:9092
+        - name: EUREKA
+          valueFrom:
+            configMapKeyRef:
+              key: eureka_service_address
+              name: eureka-cms
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: questions-service-svc
+spec:
+  selector:
+    app: questions-service-app
+  ports:
+  - port: 80
+    targetPort: 8081

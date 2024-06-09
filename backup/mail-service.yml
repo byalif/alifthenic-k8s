@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mail-service-app
+spec:
+  selector:
+    matchLabels:
+      app: mail-service-app
+  template:
+    metadata:
+      labels:
+        app: mail-service-app
+    spec:
+      containers:
+      - name: mail-service-app
+        image: beatsbyalif/mailer-service:12
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8093
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-cm
+              key: config_url
+        - name: DB_HOST
+          value: mysitedb.cbcga8mua8q3.us-east-2.rds.amazonaws.com
+        - name: MYSQL_ROOT_PASSWORD
+          value: Wjps2018
+        - name: kafka-bootstrap
+          value: my-kafka-cluster-kafka-0.my-kafka-cluster-kafka-brokers:9092
+        - name: MAIL-SERVICE
+          valueFrom:
+            configMapKeyRef:
+              name: mail-cm
+              key: mail-host
+        - name: EUREKA
+          valueFrom:
+            configMapKeyRef:
+              key: eureka_service_address
+              name: eureka-cms
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mail-service-svc
+spec:
+  selector:
+    app: mail-service-app
+  ports:
+  - port: 80
+    targetPort: 8093

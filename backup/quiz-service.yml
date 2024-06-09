@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-service-app
+spec:
+  selector:
+    matchLabels:
+      app: quiz-service-app
+  template:
+    metadata:
+      labels:
+        app: quiz-service-app
+    spec:
+      containers:
+      - name: quiz-service-app
+        image: beatsbyalif/quiz-service:14
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8083
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-cm
+              key: config_url
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-cm
+              key: hostname
+        - name: MYSQL_ROOT_PASSWORD
+          value: Wjps2018
+        - name: EUREKA
+          valueFrom:
+            configMapKeyRef:
+              key: eureka_service_address
+              name: eureka-cms
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-service-svc
+spec:
+  selector:
+    app: quiz-service-app
+  ports:
+  - port: 80
+    targetPort: 8083

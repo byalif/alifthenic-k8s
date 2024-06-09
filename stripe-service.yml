@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stripe-service-app
+spec:
+  selector:
+    matchLabels:
+      app: stripe-service-app
+  template:
+    metadata:
+      labels:
+        app: stripe-service-app
+    spec:
+      containers:
+      - name: stripe-service-app
+        image: beatsbyalif/stripe-service:20
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8085
+        env:
+        - name: CONFIG_SERVER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: config-cm
+              key: config_url
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: mysql-cm
+              key: hostname
+        - name: MYSQL_ROOT_PASSWORD
+          value: Wjps2018
+        - name: kafka-bootstrap
+          value: my-kafka-cluster-kafka-0.my-kafka-cluster-kafka-brokers:9092
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: stripe-service-svc
+spec:
+  selector:
+    app: stripe-service-app
+  ports:
+  - port: 80
+    targetPort: 8085
