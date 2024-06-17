@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: quiz-service-app
-        image: beatsbyalif/quiz-service:20
+        image: beatsbyalif/quiz-service:1.X.0-1
         imagePullPolicy: Always
         ports:
         - containerPort: 8083
