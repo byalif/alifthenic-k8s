@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: stripe-service-app
-        image: beatsbyalif/stripe-service:1.X.0-5
+        image: beatsbyalif/stripe-service:1.X.0-6
         imagePullPolicy: Always
         ports:
         - containerPort: 8085
