@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: questions-service-app
-        image: beatsbyalif/questions-service:1.X.0-5
+        image: beatsbyalif/questions-service:1.X.0-6
         imagePullPolicy: Always
         ports:
         - containerPort: 8082
