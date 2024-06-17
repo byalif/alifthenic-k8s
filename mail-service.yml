@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: mail-service-app
-        image: beatsbyalif/mailer-service:1.X.0-1
+        image: beatsbyalif/mailer-service:1.X.0-2
         imagePullPolicy: Always
         ports:
         - containerPort: 8093
