@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: cloud-gateway-app
-        image: beatsbyalif/api-gateway:1.X.0-8
+        image: beatsbyalif/api-gateway:1.X.0-5
         imagePullPolicy: Always
         ports:
         - containerPort: 8084
@@ -22,17 +22,15 @@ spec:
             valueFrom:
               configMapKeyRef:
                 name: config-cm
-                key: config_url              
-
+                key: config_url
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
   name: cloud-gateway-svc
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
-    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:246211615161:certificate/6b470870-282a-4d61-9f71-df9e741c03ab"
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:246211615161:certificate/ff517a9b-f160-4e64-be86-3f2b17a01e10"
     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
 spec:
   type: LoadBalancer
