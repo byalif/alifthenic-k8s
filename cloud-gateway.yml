@@ -29,7 +29,7 @@ kind: Service
 metadata:
   name: cloud-gateway-svc
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "https"
     service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "arn:aws:acm:us-east-1:246211615161:certificate/ff517a9b-f160-4e64-be86-3f2b17a01e10"
     service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "443"
 spec:
